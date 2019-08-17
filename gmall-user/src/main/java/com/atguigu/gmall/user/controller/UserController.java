@@ -1,8 +1,8 @@
 package com.atguigu.gmall.user.controller;
 
-import com.atguigu.gmall.user.common.bean.UmsMember;
+import com.igeekhome.gmall.bean.UmsMember;
 import com.atguigu.gmall.user.common.enums.ResponseEnum;
-import com.atguigu.gmall.user.service.UserService;
+import com.igeekhome.gmall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

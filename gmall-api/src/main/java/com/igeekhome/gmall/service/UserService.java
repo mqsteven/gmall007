@@ -1,7 +1,9 @@
-package com.atguigu.gmall.user.service;
+package com.igeekhome.gmall.service;
 
-import com.atguigu.gmall.user.common.bean.UmsMember;
 
+
+
+import com.igeekhome.gmall.bean.UmsMember;
 
 import java.util.List;
 
