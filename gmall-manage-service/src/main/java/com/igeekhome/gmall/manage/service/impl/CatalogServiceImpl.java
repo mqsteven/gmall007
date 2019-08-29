@@ -1,7 +1,11 @@
 package com.igeekhome.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.igeekhome.gmall.bean.PmsBaseCatalog1;
+import com.igeekhome.gmall.bean.PmsBaseCatalog2;
+import com.igeekhome.gmall.bean.PmsBaseCatalog3;
 import com.igeekhome.gmall.manage.mapper.PmsBaseCatalog1Mapper;
 import com.igeekhome.gmall.manage.mapper.PmsBaseCatalog2Mapper;
 import com.igeekhome.gmall.manage.mapper.PmsBaseCatalog3Mapper;
@@ -24,4 +28,22 @@ public class CatalogServiceImpl implements CatalogService {
         List<PmsBaseCatalog1> catalog1s = pmsBaseCatalog1Mapper.selectList(null);
         return catalog1s;
     }
+
+    @Override
+    public List<PmsBaseCatalog2> getCatalog2(String catalog1Id) {
+        QueryWrapper<PmsBaseCatalog2> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(PmsBaseCatalog2::getCatalog1Id,catalog1Id);
+        List<PmsBaseCatalog2> catalog2s = pmsBaseCatalog2Mapper.selectList(queryWrapper);
+        return catalog2s;
+    }
+
+    @Override
+    public List<PmsBaseCatalog3> getCatalog3(String catalog2Id) {
+        QueryWrapper<PmsBaseCatalog3> queryWrapper2=new QueryWrapper<>();
+        queryWrapper2.lambda().eq(PmsBaseCatalog3::getCatalog2Id,catalog2Id);
+        List<PmsBaseCatalog3> catalog3s = pmsBaseCatalog3Mapper.selectList(queryWrapper2);
+        return catalog3s;
+    }
+
+
 }

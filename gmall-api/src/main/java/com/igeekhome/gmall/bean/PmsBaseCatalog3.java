@@ -14,5 +14,5 @@ public class PmsBaseCatalog3 implements Serializable {
 
     private String  id;
     private String  name;
-    private String  catakog2Id;
+    private String  catalog2Id;
 }
