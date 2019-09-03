@@ -2,6 +2,7 @@ package com.igeekhome.gmall.service;
 
 import com.igeekhome.gmall.bean.PmsBaseAttrInfo;
 import com.igeekhome.gmall.bean.PmsBaseAttrValue;
+import com.igeekhome.gmall.bean.PmsBaseSaleAttr;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface AttrService {
 
 
     List<PmsBaseAttrValue> getAttrValueList(String attrId);
+
+    List<PmsBaseSaleAttr> baseSaleAttrList();
 }

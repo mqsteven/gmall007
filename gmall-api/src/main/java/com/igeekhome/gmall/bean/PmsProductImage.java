@@ -1,5 +1,7 @@
 package com.igeekhome.gmall.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor(force = true)
 public class PmsProductImage implements Serializable {
 
-
+    @TableId(value="id",type= IdType.AUTO)
     private String id;
 
     private String productId;

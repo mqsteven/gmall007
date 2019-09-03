@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.igeekhome.gmall.bean.PmsBaseAttrInfo;
 import com.igeekhome.gmall.bean.PmsBaseAttrValue;
+import com.igeekhome.gmall.bean.PmsBaseSaleAttr;
 import com.igeekhome.gmall.manage.mapper.PmsBaseAttrValueMapper;
 import com.igeekhome.gmall.manage.mapper.PmsBaseAttrInfoMapper;
+import com.igeekhome.gmall.manage.mapper.PmsBaseSaleAttrMapper;
 import com.igeekhome.gmall.service.AttrService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class AttrServiceImpl implements AttrService {
 
     @Autowired
     PmsBaseAttrValueMapper pmsBaseAttrValueMapper;
-
-
+    @Autowired
+    PmsBaseSaleAttrMapper pmsBaseSaleAttrMapper;
 
 
     @Override
@@ -54,6 +56,7 @@ public class AttrServiceImpl implements AttrService {
             pmsBaseAttrValueMapper.delete(queryWrapper);
             //循环插入
             for (PmsBaseAttrValue pmsBaseAttrValue : attrValueList) {
+               pmsBaseAttrValue.setAttrId(pmsBaseAttrInfo.getId());
                 pmsBaseAttrValueMapper.insert(pmsBaseAttrValue);
             }
         }
@@ -69,6 +72,12 @@ public class AttrServiceImpl implements AttrService {
         List<PmsBaseAttrValue> pmsBaseAttrValues = pmsBaseAttrValueMapper.selectList(query);
 
         return pmsBaseAttrValues;
+    }
+
+    @Override
+    public List<PmsBaseSaleAttr> baseSaleAttrList() {
+        List<PmsBaseSaleAttr> pmsBaseSaleAttrs = pmsBaseSaleAttrMapper.selectList(null);
+        return pmsBaseSaleAttrs;
     }
 
 

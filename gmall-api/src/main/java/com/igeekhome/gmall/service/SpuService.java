@@ -10,4 +10,6 @@ public interface SpuService {
     List<PmsProductInfo> spuList(String catalog3Id);
 
     List<PmsProductSaleAttr> spuSaleAttrList(String productId);
+
+    String saveSpuInfo(PmsProductInfo pmsProductInfo);
 }

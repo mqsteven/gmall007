@@ -3,6 +3,7 @@ package com.igeekhome.gmall.manage.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.igeekhome.gmall.bean.PmsBaseAttrInfo;
 import com.igeekhome.gmall.bean.PmsBaseAttrValue;
+import com.igeekhome.gmall.bean.PmsBaseSaleAttr;
 import com.igeekhome.gmall.service.AttrService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,13 @@ public class AttController {
 
         List<PmsBaseAttrValue>   pmsBaseAttrValues=attrService.getAttrValueList(attrId);
         return pmsBaseAttrValues;
+    }
+
+
+    @PostMapping("baseSaleAttrList")
+    public List<PmsBaseSaleAttr> baseSaleAttrList(){
+
+        List<PmsBaseSaleAttr>   pmsBaseSaleAttrs=attrService.baseSaleAttrList();
+        return pmsBaseSaleAttrs;
     }
 }
