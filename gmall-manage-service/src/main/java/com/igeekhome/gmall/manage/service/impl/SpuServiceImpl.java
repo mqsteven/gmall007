@@ -39,10 +39,19 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public List<PmsProductSaleAttr> spuSaleAttrList(String productId) {
+    public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
         QueryWrapper<PmsProductSaleAttr> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PmsProductSaleAttr::getProductId, productId);
+        queryWrapper.lambda().eq(PmsProductSaleAttr::getProductId, spuId);
         List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.selectList(queryWrapper);
+        for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrs) {
+            QueryWrapper<PmsProductSaleAttrValue> queryWrapper2=new QueryWrapper<>();
+            queryWrapper2.lambda().
+                    eq(PmsProductSaleAttrValue::getProductId,spuId).
+                    eq(PmsProductSaleAttrValue::getSaleAttrId,pmsProductSaleAttr.getSaleAttrId());
+            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.selectList(queryWrapper2);
+            pmsProductSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
+        }
+
         return pmsProductSaleAttrs;
     }
 
@@ -68,5 +77,32 @@ public class SpuServiceImpl implements SpuService {
 
         }
         return "success";
+    }
+
+    @Override
+    public List<PmsProductImage> spuImageList(String spuId) {
+
+
+        QueryWrapper<PmsProductImage> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(PmsProductImage::getProductId,spuId);
+        List<PmsProductImage> pmsProductImages = pmsProductImageMapper.selectList(queryWrapper);
+
+        return  pmsProductImages;
+    }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId) {
+
+
+        QueryWrapper<PmsProductSaleAttr> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(PmsProductSaleAttr::getProductId,productId);
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.selectList(queryWrapper);
+        for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrs) {
+            QueryWrapper<PmsProductSaleAttrValue> queryWrapper2=new QueryWrapper<>();
+            queryWrapper2.lambda().eq(PmsProductSaleAttrValue::getProductId,productId).eq(PmsProductSaleAttrValue::getSaleAttrId,pmsProductSaleAttr.getSaleAttrId());
+            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.selectList(queryWrapper2);
+            pmsProductSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
+        }
+        return pmsProductSaleAttrs;
     }
 }

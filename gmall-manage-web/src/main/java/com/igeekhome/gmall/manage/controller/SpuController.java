@@ -1,6 +1,7 @@
 package com.igeekhome.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.igeekhome.gmall.bean.PmsProductImage;
 import com.igeekhome.gmall.bean.PmsProductInfo;
 import com.igeekhome.gmall.bean.PmsProductSaleAttr;
 import com.igeekhome.gmall.service.SpuService;
@@ -27,6 +28,15 @@ public class SpuController {
     @Reference
     SpuService spuService;
 
+    @RequestMapping("spuImageList")
+    @ResponseBody
+    public List<PmsProductImage> spuImageList(String spuId){
+        List<PmsProductImage> pmsProductImages=spuService.spuImageList(spuId);
+        return pmsProductImages;
+    }
+
+
+
     @RequestMapping("saveSpuInfo")
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo){
@@ -38,7 +48,7 @@ public class SpuController {
      @ResponseBody
     public String fileUpload(@RequestParam("file")MultipartFile file) throws IOException, MyException {
     //将图片或者音频上传到分布式的文件存储系统
-         String imgUrl=fileUrl;
+         String imgUrl="http://"+fileUrl;
          if(file!=null){
              System.out.println("multipartFile = " + file.getName()+"|"+file.getSize());
 
@@ -51,7 +61,7 @@ public class SpuController {
              String extName = StringUtils.substringAfterLast(filename, ".");
 
              String[] upload_file = storageClient.upload_file(file.getBytes(), extName, null);
-             imgUrl=fileUrl ;
+             imgUrl="http://"+fileUrl ;
              for (int i = 0; i < upload_file.length; i++) {
                  String path = upload_file[i];
                  imgUrl+="/"+path;
@@ -71,8 +81,8 @@ public class SpuController {
     }
     @RequestMapping("spuSaleAttrList")
     @ResponseBody
-    public List<PmsProductSaleAttr> spuSaleAttrList(String productId){
-        List<PmsProductSaleAttr>  pmsProductSaleAttrs=spuService.spuSaleAttrList(productId);
+    public List<PmsProductSaleAttr> spuSaleAttrList(String spuId){
+        List<PmsProductSaleAttr>  pmsProductSaleAttrs=spuService.spuSaleAttrList(spuId);
         return pmsProductSaleAttrs;
     }
 

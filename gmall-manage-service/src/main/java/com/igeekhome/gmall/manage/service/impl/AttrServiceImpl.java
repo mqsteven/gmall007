@@ -13,6 +13,7 @@ import com.igeekhome.gmall.service.AttrService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class AttrServiceImpl implements AttrService {
@@ -30,7 +31,16 @@ public class AttrServiceImpl implements AttrService {
         QueryWrapper<PmsBaseAttrInfo> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(PmsBaseAttrInfo::getCatalog3Id,catalog3Id);
         List<PmsBaseAttrInfo> pmsBaseAttrInfos = pmsBaseAttrInfoMapper.selectList(queryWrapper);
+        for (PmsBaseAttrInfo pmsBaseAttrInfo : pmsBaseAttrInfos) {
 
+            List<PmsBaseAttrValue> pmsBaseAttrValues=new ArrayList<>();
+
+            QueryWrapper<PmsBaseAttrValue> queryWrapper2=new QueryWrapper<>();
+            queryWrapper2.lambda().eq(PmsBaseAttrValue::getAttrId,pmsBaseAttrInfo.getId());
+
+            pmsBaseAttrValues = pmsBaseAttrValueMapper.selectList(queryWrapper2);
+            pmsBaseAttrInfo.setAttrValueList(pmsBaseAttrValues);
+        }
         return pmsBaseAttrInfos;
     }
 
