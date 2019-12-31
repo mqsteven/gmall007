@@ -10,6 +10,8 @@ import com.igeekhome.gmall.manage.mapper.PmsProductSaleAttrMapper;
 import com.igeekhome.gmall.manage.mapper.PmsProductSaleAttrValueMapper;
 import com.igeekhome.gmall.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.util.List;
 
@@ -91,18 +93,22 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId) {
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId,String skuId) {
 
 
-        QueryWrapper<PmsProductSaleAttr> queryWrapper=new QueryWrapper<>();
-        queryWrapper.lambda().eq(PmsProductSaleAttr::getProductId,productId);
-        List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.selectList(queryWrapper);
-        for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrs) {
-            QueryWrapper<PmsProductSaleAttrValue> queryWrapper2=new QueryWrapper<>();
-            queryWrapper2.lambda().eq(PmsProductSaleAttrValue::getProductId,productId).eq(PmsProductSaleAttrValue::getSaleAttrId,pmsProductSaleAttr.getSaleAttrId());
-            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.selectList(queryWrapper2);
-            pmsProductSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
-        }
+//        QueryWrapper<PmsProductSaleAttr> queryWrapper=new QueryWrapper<>();
+//        queryWrapper.lambda().eq(PmsProductSaleAttr::getProductId,productId);
+//        List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.selectList(queryWrapper);
+//        for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrs) {
+//            QueryWrapper<PmsProductSaleAttrValue> queryWrapper2=new QueryWrapper<>();
+//            queryWrapper2.lambda().eq(PmsProductSaleAttrValue::getProductId,productId).eq(PmsProductSaleAttrValue::getSaleAttrId,pmsProductSaleAttr.getSaleAttrId());
+//            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.selectList(queryWrapper2);
+//            pmsProductSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
+//        }
+
+        List<PmsProductSaleAttr> pmsProductSaleAttrs=  pmsProductSaleAttrMapper.selectListByProductAndSkuId(productId,skuId);
         return pmsProductSaleAttrs;
+
+
     }
 }
